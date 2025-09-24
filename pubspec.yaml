@@ -1,0 +1,12 @@
+name: peachz_player_engine
+description: Audio player engine for Peachz app
+version: 1.0.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  just_audio: ^0.10.3
