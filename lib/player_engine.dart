@@ -224,6 +224,30 @@ class PlayerEngine {
     _emitCurrentTrack(_playlist.current);
   }
 
+  /// creates a playlist from a list of tracks and sets the specified track as current
+Future<void> initPlaylistFromWithTrack(List<TrackItem> tracks, TrackItem selectedTrack) async {
+  _playlist.initFromList(tracks);
+  
+  // Find the index of the selected track
+  final selectedIndex = tracks.indexWhere((track) => track.trackId == selectedTrack.trackId);
+  
+  if (selectedIndex != -1) {
+    // Set the playlist index to the selected track
+    _playlist.setIndex(selectedIndex);
+  } else {
+    // If track not found, fall back to first track (index 0)
+    print('Warning: Selected track ${selectedTrack.trackName} not found in playlist, defaulting to first track');
+    _playlist.setIndex(0);
+  }
+  
+  await _updatePlayerWithCurrentTrack();
+  _player.play();
+  _updateAndEmitSnap(_updateState());
+  _emitPlaylistSnap();
+  _emitPlaylist();
+  _emitCurrentTrack(_playlist.current);
+}
+
   Future<void> nextTrack() async {
     print("PlayerEngine: nextTrack()");
     _playlist.next();
